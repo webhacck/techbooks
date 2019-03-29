@@ -1,0 +1,26 @@
+<!DOCTYPE html>
+<html lang="ja">
+  <head>
+    <meta charset="utf-8">
+    <title>マジカル・アイを作ろう</title>
+  </head>
+  <body>
+    
+    <img id="magic-eye" width="900" height="500"/>
+        
+    
+    <script src="https://cdn.jsdelivr.net/gh/peeinears/MagicEye.js/magiceye.min.js"></script>
+    <script src="https://cdn.jsdelivr.net/gh/peeinears/MagicEye.js/depthmappers/TextDepthMapper.js"></script>
+    <script>
+
+      //renderメソッド内で画像の表示場所と3Dで表示したいテキストを設定する
+      //この例では「こんにちは」という文字が3Dで出現する
+      MagicEye.render({
+        el: 'magic-eye',
+        depthMapper: new MagicEye.TextDepthMapper('こんにちは')
+      })
+
+    </script>
+
+  </body>
+</html>
