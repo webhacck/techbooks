@@ -1,0 +1,42 @@
+<!DOCTYPE html>
+<html lang="ja">
+  <head>
+    <meta charset="utf-8">
+    <title>3Dマップのサンプル</title>
+  </head>
+  <body>
+    
+    <div id="globalArea" style="width:800px;height:420px"></div>
+    
+
+    
+    <script src="https://threejs.org/build/three.min.js"></script>
+    <script src="https://cdn.jsdelivr.net/gh/syt123450/giojs/build/gio.min.js"></script>
+    <script>
+      
+      var container = document.getElementById( "globalArea" );
+      var controller = new GIO.Controller( container );
+      var data = [
+      {
+        e: "JP",
+        i: "CN",
+        v: 8000000
+      }, {
+        e: "JP",
+        i: "TH",
+        v: 3000000
+      }, {
+        e: "JP",
+        i: "ID",
+        v: 1000000
+      }];
+
+      controller.addData( data );
+      
+      controller.init();
+      
+    </script>
+
+    
+  </body>
+</html>
