@@ -1,0 +1,36 @@
+<!DOCTYPE html>
+<html lang="ja">
+  <head>
+    <meta charset="utf-8">
+    <title>マジカル・アイを作ろう</title>
+  </head>
+  <body>
+    
+    <img id="magic-eye" width="900" height="500"/><br>
+    
+    <input id="text" type="text">
+    <button id="btn">実行</button>
+    
+    
+    <script src="https://cdn.jsdelivr.net/gh/peeinears/MagicEye.js/magiceye.min.js"></script>
+    <script src="https://cdn.jsdelivr.net/gh/peeinears/MagicEye.js/depthmappers/TextDepthMapper.js"></script>
+    
+    <script>
+
+      const text = document.getElementById('text');
+      const btn = document.getElementById('btn');
+
+      
+      //実行ボタンをクリックしたらマジカル・アイ画像を生成する
+      //ユーザーが入力した値（text.value）をdepthMapperに設定する
+      btn.addEventListener('click', (e) => {
+        MagicEye.render({
+          el: 'magic-eye',
+          depthMapper: new MagicEye.TextDepthMapper(text.value)
+        });
+      })
+
+    </script>
+
+  </body>
+</html>
