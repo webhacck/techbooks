@@ -1,0 +1,76 @@
+<!DOCTYPE html>
+<html lang="ja">
+  <head>
+    <meta charset="utf-8">
+    <title>chat</title>
+    <link rel="stylesheet" href="https://unpkg.com/botui/build/botui.min.css" />
+    <link rel="stylesheet" href="https://unpkg.com/botui/build/botui-theme-default.css" />
+  </head>
+  <body>
+    
+    
+    <!-- botui-app-containerクラスを付与するとチャット画面が中央寄りになります -->
+    <div id="my-botui" class="botui-app-container">
+      <bot-ui></bot-ui>
+    </div>
+    
+    
+    <script src="https://cdn.jsdelivr.net/vue/latest/vue.min.js"></script>
+    <script src="https://unpkg.com/botui/build/botui.min.js"></script>
+    <script>
+      
+      const botui = new BotUI('my-botui');
+      
+      botui.message.add({
+        content: 'こんにちは！'
+      }).then(() => {
+        return botui.message.add({
+          delay: 1000,
+          content: 'チャットボットのサンプルデモです'
+        })
+      }).then(() => {
+        return botui.message.add({
+          delay: 1000,
+          content: '今日の気分はいかがですか？'
+        }).then(() => {
+          return botui.action.button({
+            action: [{
+              text: '最高',
+              value: 'good'
+            }, {
+              text: '普通',
+              value: 'normal'
+            }, {
+              text: '最悪',
+              value: 'bad'
+            }]
+          })
+        })
+      }).then((result) => {
+        switch(result.value) {
+          case 'good':   return '最高の1日になりますね！';
+          case 'normal': return '今日も1日がんばりましょう！';
+          case 'bad':    return 'そうですか…、きっと良いことがありますよ！';
+        }
+      }).then((answer) => {
+        return botui.message.add({
+          delay: 1000,
+          content: answer
+        }).then(() => {
+          return botui.message.add({
+            delay: 1000,
+            content: 'こんな感じでチャットボットを作ることができます。'
+          })
+        }).then(() => {
+          return botui.message.add({
+            delay: 1000,
+            type: 'html',
+            content: 'マニュアルは<a href="https://docs.botui.org/index.html"><b>こちら</b></a>から見れます！'
+          })
+        })
+      })
+
+    </script>
+    
+  </body>
+</html>
