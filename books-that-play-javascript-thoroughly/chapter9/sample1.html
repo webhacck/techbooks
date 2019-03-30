@@ -1,0 +1,25 @@
+<!DOCTYPE html>
+<html lang="ja">
+  <head>
+    <meta charset="utf-8">
+    <title>Tone.jsのサンプル</title>
+  </head>
+  <body>
+    
+    <button id="btn">開始</button>
+    
+    <script src="https://tonejs.github.io/build/Tone.js"></script>
+    <script>
+      
+      const btn = document.getElementById('btn');
+      const synth = new Tone.Synth().toMaster();
+      
+      
+      btn.addEventListener('click', function() {
+        synth.triggerAttackRelease('C4', '4n');
+      })
+      
+    </script>
+    
+  </body>
+</html>
