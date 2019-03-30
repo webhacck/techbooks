@@ -1,0 +1,48 @@
+<!DOCTYPE html>
+<html lang="ja">
+  <head>
+    <meta charset="utf-8">
+    <title>Tone.jsのサンプル</title>
+  </head>
+  <body>
+    
+    <button id="btn">開始</button>
+    
+    <script src="https://tonejs.github.io/build/Tone.js"></script>
+    <script>
+      
+      const btn = document.getElementById('btn');
+      const melodyLists = ['G3', 'A3', 'G3', 'C4', 'B3', null,'G3', 'A3', 'G3', 'D4', 'C4', null];
+      
+      //Synth()の初期設定
+      const option = {
+        envelope: {
+          attack: 0.005,
+          decay: 0.1,
+          sustain: 0.3,
+          release: 1
+        }
+      }
+      
+      //エフェクトの利用（ディストーション、リバーブ、トレモロ）
+      const distortion = new Tone.Distortion();
+      const reverb = new Tone.Freeverb();
+      const tremolo = new Tone.Tremolo().start();
+      
+      //chain()を利用して複数のエフェクトを同時接続する
+      const synth = new Tone.Synth(option).chain(reverb, tremolo, distortion, Tone.Master);
+      const melody = new Tone.Sequence(toPlay, melodyLists).start();
+      
+      
+      btn.addEventListener('click', function() {
+        Tone.Transport.start().stop('3m');
+      });
+      
+      function toPlay(time, note) {
+          synth.triggerAttackRelease(note, '4n', time);
+      }
+      
+    </script>
+    
+  </body>
+</html>
