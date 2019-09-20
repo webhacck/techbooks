@@ -1,0 +1,201 @@
+<!DOCTYPE html>
+<html lang="ja">
+  <head>
+    <meta charset="utf-8">
+    <title>Clarifaiのミニアプリ</title>
+    <link rel="stylesheet" href="//cdnjs.cloudflare.com/ajax/libs/milligram/1.3.0/milligram.css" />
+    <style>
+      img, canvas {
+        width: 400px;
+      }
+      footer {
+        width: 20%;
+        margin: auto;
+        text-align: center;
+      }
+    </style>
+  </head>
+  <body>
+    
+    <div class="container">
+      <h1>Clarifaiサンプル</h1>
+      
+      <!-- 画像ファイルの読み込みボタンを設置 -->
+      <input type="file" id="myfile">
+      
+      <!-- 読み込んだ画像を表示 -->
+      <div id="media"></div>
+      
+      <!-- 進捗状況の表示 -->
+      <p id="info"></p>
+      
+      <!-- キーワードリスト、カラー情報の出力場所 -->
+      <div class="row">
+        <ul id="wordList" class="column"></ul>
+        <dl id="colorList" class="column"></dl>
+      </div>
+    </div>
+    
+    <hr />
+    <footer>
+      <!-- Clarifaiの帰属表示としてロゴを掲示 -->
+      <img src="https://cdn.glitch.com/a3a607f5-b37b-4a1c-9ec2-0399687968d4%2FAI_By_Clarifai_Black%403x.png" />
+    </footer>
+    
+    
+    <script src="https://sdk.clarifai.com/js/clarifai-latest.js"></script>
+    <script>
+
+      //各種HTML要素を取得する
+      const file = document.getElementById('myfile');
+      const info = document.getElementById('info');
+      const media = document.getElementById('media');
+      const wordList = document.getElementById('wordList');
+      const colorList = document.getElementById('colorList');
+      
+      //ClarifaiのAPIキー登録とモデルIDをオブジェクト化する
+      const app = new Clarifai.App({apiKey: '1346d*************'});
+      const modelLists = [
+        {id:'aaa03c23b3724a16a56b629203edc62c', name:'concepts'},
+        {id:'eeed0b6733a644cea07cf4c60f87ebb7', name:'colors'},
+        {id:'a403429f2ddf4b49b307e318f00e528b', name:'regions'}
+      ];
+      
+      
+      //画像ファイルの読み込み処理
+      file.addEventListener("change", function(event){
+        const data = event.target.files;
+        const reader = new FileReader();
+        
+        //読み込まれたファイル情報は配列の0番目に格納される
+        //その0番目の情報をreadAsDataURL()メソッドで読み込む
+        reader.readAsDataURL(data[0]);
+
+        //画像ファイルの再読込時に前の結果をリセットする
+        wordList.innerHTML = '';
+        colorList.innerHTML = '';
+        media.innerHTML = '';
+        
+        //画像ファイルの読み込みが完了した時の処理
+        reader.onload = function(){
+          const img = document.createElement('img');
+          const imgFile = reader.result;
+          const imgData = imgFile.split(',')[1];
+          
+          //読み込まれた画像を画面に表示
+          img.src = imgFile;
+          media.appendChild(img);
+          info.textContent = '画像を解析中・・・';
+                    
+          //読み込まれた画像を元にしてClarifaiの学習モデルで解析する
+          modelLists.forEach((model) => {
+            getResult(model, imgData, imgFile);
+          });
+
+        }
+      });
+
+      
+      //Clarifaiから返ってくる結果を取得する
+      function getResult(model, imgData, imgFile) {
+        app.models.predict(model.id, {base64:imgData})
+        .then(
+          response => {
+            const result = response.outputs[0].data[model.name];
+
+            //画面へ解析結果をモデルごとに出力する
+            showResult(model.name, result, imgFile);
+          },
+          error => console.log(error)
+        );
+      }
+      
+      
+      //各モデルごとの結果を処理する
+      function showResult(name, result, imgFile) {
+        switch(name) {
+          case 'concepts':
+            showKeyword(result);
+            break;
+          case 'colors':
+            showColor(result);
+            break;
+          case 'regions':
+            info.textContent = '';
+            showFace(result, imgFile);
+            break;
+        }
+      }
+      
+      
+      
+      //【キーワードリスト】
+      //キーワードを画面に出力する
+      function showKeyword(result) {
+        result.forEach( data => wordList.innerHTML += '<li>'+data.name+'</li>');
+      }
+      
+      
+      //【カラー情報】
+      //抽出されたカラー情報を画面に出力する
+      function showColor(data) {
+        
+        data.forEach(color => {
+          const dt = document.createElement('dt');
+
+          dt.style.width = '100px';
+          dt.style.height = '50px';
+          dt.style.backgroundColor = color.raw_hex;
+          dt.textContent = color.raw_hex;
+          
+          colorList.appendChild(dt);
+        });
+      }
+      
+      
+      //【顔認識】
+      //認識結果を元にCanvasで顔にマーキング処理する
+      function showFace(lists, img) {
+        const canvas = document.createElement('canvas');
+        const ctx = canvas.getContext('2d');
+        const image = new Image();
+        
+        media.appendChild(canvas);
+        
+        image.src = img;
+        
+        //画像の読み込み完了後に処理を実行
+        image.onload = () => {
+          canvas.width = image.width;
+          canvas.height = image.height;
+          ctx.drawImage(image, 0, 0);
+
+          //マーキングのスタイル設定
+          ctx.strokeStyle = '#ff0000';
+          ctx.lineWidth = 12;
+
+          //顔認識できていればマーキング処理を行う
+          //顔認識できていなければマーキング処理は行わない
+          if(lists) {
+            //取得した顔認識の結果をすべてマーキングする
+            lists.forEach(data => {
+              
+              //解析結果をピクセル値に変換する
+              const box = data.region_info.bounding_box;
+              const leftX = box.left_col * image.width;
+              const leftY = box.top_row * image.height;
+              const rightX = box.right_col * image.width;
+              const rightY = box.bottom_row * image.height;
+
+              //顔の部分にマーキング
+              ctx.rect(leftX, leftY, rightX-leftX, rightY-leftY);
+            })
+          }
+          //マーキングを描画
+          ctx.stroke();
+        }
+      }
+
+    </script>
+  </body>
+</html>
