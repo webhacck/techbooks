@@ -1,0 +1,48 @@
+<!DOCTYPE html>
+<html lang="ja">
+  <head>
+    <meta charset="utf-8">
+    <title>EveryPixel基本サンプル</title>
+    <style>
+      #image {
+        width: 600px;
+      }
+    </style>
+  </head>
+  <body>
+    
+    <!-- 画像認識で利用する画像を配置 -->
+    <img id="image" src="/image/cat.jpg" />
+    
+    
+    <script>
+      const img = document.getElementById('image');
+      const xhr = new XMLHttpRequest();
+
+      //サーバー側にアクセスする（/data）
+      //同時に配置されている画像のURLを一緒に送信する
+      xhr.open('GET', '/data?imgurl='+img.src);
+      xhr.onreadystatechange = function (){
+        if(this.readyState === 4 && this.status === 200){
+          const lists = JSON.parse(this.response);
+
+          //取得できたキーワードを1つずつコンソールログに出力する
+          lists.keywords.forEach((data) => console.log(data.keyword));
+        }
+      }
+      xhr.send();
+
+
+      /*
+      //【おまけ】
+      //XMLHttpRequest()ではなくfetch()を利用した場合は3行で書ける
+      fetch('/data?imgurl='+img.src)
+      .then(data => data.json())
+      .then(json => json.keywords.forEach(key => console.log(key.keyword)))
+      */
+
+
+
+    </script>
+  </body>
+</html>
