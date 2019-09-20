@@ -1,0 +1,46 @@
+<!DOCTYPE html>
+<html lang="ja">
+  <head>
+    <meta charset="utf-8">
+    <title>Clarifai独自モデル</title>
+  </head>
+  <body>
+    
+    
+    <!-- 機械学習に利用する画像を配置 -->
+    <img id="image" src="/image/cat.jpg" />
+        
+    
+    
+    <script src="https://sdk.clarifai.com/js/clarifai-latest.js"></script>
+    <script>
+
+      //ご自身のAPIキーを設定してください
+      const app = new Clarifai.App({apiKey: '3421d*************'});
+      const img = document.getElementById('image');
+
+      //画像の幅を600pxに固定
+      img.style.width = '600px';
+
+
+
+
+      //独自モデルの利用
+      //ご自身のモデルIDとバージョン番号を設定してください
+      app.models.predict({id:'********', version:'************'},img.src)
+      .then(
+        response => {
+          const result = response.outputs[0].data.concepts;
+
+          //タグの名称と識別率を出力する
+          console.log(result[0].name);
+          console.log(result[0].value * 100);
+        },
+        error => {
+          console.log(error);
+        }
+      );
+
+  </script>
+  </body>
+</html>
