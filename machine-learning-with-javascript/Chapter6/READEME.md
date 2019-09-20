@@ -3,13 +3,16 @@
 本書で解説していた画像のアップロード手順について補足をしておきます。
 
 エディタ画面の左側にあるディレクトリで【assets】の項目を選択してからアップロードボタンをクリックします。
-![](/image/1.jpg)
+![](https://github.com/webhacck/techbooks/blob/master/machine-learning-with-javascript/Chapter6/image/1.jpg)
+
 
 画像がアップロードされると、画面にサムネイルが表示されるのでクリックします。
-![](/image/2.jpg)
+![](https://github.com/webhacck/techbooks/blob/master/machine-learning-with-javascript/Chapter6/image/2.jpg)
+
 
 画像の詳細画面に表示されているURLが画像のパスになります。
-![](/image/3.jpg)
+![](https://github.com/webhacck/techbooks/blob/master/machine-learning-with-javascript/Chapter6/image/3.jpg)
+
 プログラムで画像のパスを利用する場合は、このURLを設定するようにしてください。
 
 
