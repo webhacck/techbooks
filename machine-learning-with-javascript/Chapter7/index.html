@@ -1,0 +1,37 @@
+<!DOCTYPE html>
+<html>
+<head>
+  <meta charset="utf-8" />
+  <title>Tisane Sample</title>
+</head>
+<body>
+
+  <!-- Tisane APIで利用する文字列を入力するフォームを配置する -->
+  <form name="myform">
+    <input name="text" type="text" />
+    <input name="btn" type="button" value="実行"/>
+  </form>
+  
+  
+  <script>
+    const form = document.forms.myform;
+    const xhr = new XMLHttpRequest();
+
+    form.btn.addEventListener('click' , function() {
+
+      //サーバーへアクセスすると同時に入力された文字列を一緒に送信する
+      xhr.open('GET', '/data?keyword='+form.text.value);
+
+      xhr.onreadystatechange = function() {
+        if(this.readyState === 4 && this.status === 200) {
+          //結果をJSON形式に変換して出力する
+          console.log(JSON.parse(this.response));
+        }
+      }
+
+      xhr.send();
+
+    });
+  </script>
+</body>
+</html>
