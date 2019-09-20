@@ -1,0 +1,88 @@
+<!DOCTYPE html>
+<html lang="ja">
+<head>
+  <meta charset="utf-8" />
+  <title>StackML Sample</title>
+  <style>
+    canvas {
+      width: 500px;
+    }
+  </style>
+</head>
+
+<body>
+  <h1>StackMLのテスト</h1>
+  
+  <!-- 任意の画像を配置してください -->
+  <img src="/image/test1.jpg" crossorigin="anonymous" id="myimage" width="500">
+  
+  <!-- 出力結果用のキャンバスを配置 -->
+  <canvas id="myCanvas"></canvas>
+  
+  
+  <script src="https://stackml.com/library-js/stackml.min.js"></script>
+  <script>
+    const image = document.getElementById('myimage');
+    const canvas = document.getElementById('myCanvas');
+    
+    callStackML();
+    
+    //StackMLのAPIを利用する
+    async function callStackML() {
+    
+      //ご自身のAPIキーを設定してください
+      await stackml.init({'accessKeyId': '**********************'});      
+      
+      
+      //※各種モデルごとの書き方を以下に掲載しておきます。
+      
+      //【FaceDetection】
+      //顔を認識してマーキング処理する
+      /*
+      const model = await stackml.faceDetection();
+      
+      model.detect(image, (err, results) => {
+        model.draw(canvas, image, results);
+      });
+      */
+      
+      
+      //【PoseNet】
+      //人物の骨格・姿勢を分析して骨格を描画する
+      //（なるべく全身が写っている写真を推奨）
+      /*
+      const model = await stackml.poseNet();
+      
+      model.detect(image, (err, results) => {
+        model.draw(canvas, image, results);
+      });      
+      */
+      
+      
+      //【FaceLandmark】
+      //顔の特徴検出して描画する
+      /*
+      const model = await stackml.faceLandmark();
+      
+      model.detect(image, (err, results) => {
+        model.draw(canvas, image, results);
+      });
+      */
+      
+      
+      //【BodyPix】 
+      //人物と背景を切り分ける
+      /*
+      const model = await stackml.bodypix();
+      
+      model.detect(image, (err, results) => {
+        model.draw(canvas, image, results);
+      });
+      */
+
+      
+      
+    }
+  </script>
+  </body>
+</html>
