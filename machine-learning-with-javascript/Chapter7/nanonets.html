@@ -1,0 +1,46 @@
+<!DOCTYPE html>
+<html lang="ja">
+  <head>
+    <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    <title>Nanonets Sample</title>
+    <style>
+      img {
+        width: 600px;
+      }
+    </style>
+  </head>
+  <body>
+    
+    <!-- 機械学習に利用する画像を配置する -->
+    <img id="img" src="/image/test2.jpg" />
+    
+    
+    <script>
+      const img = document.getElementById('img');
+
+      //画像要素を取得してクエリにする
+      const data = 'urls='+img.src;
+
+      const xhr = new XMLHttpRequest();
+
+      xhr.addEventListener("readystatechange", function () {
+          if (this.readyState === 4 && this.status === 200) {
+              //取得した結果をJSON形式で出力する
+              console.log(JSON.parse(this.response));
+          }
+      });
+
+      //NanonetsのAPIを利用する
+      //ご自身の学習モデルを設定してください
+      xhr.open("POST", "https://app.nanonets.com/api/v2/ObjectDetection/Model/*********************");
+      xhr.setRequestHeader("Content-Type", "application/x-www-form-urlencoded");
+      xhr.setRequestHeader("authorization", "Basic " + btoa("*****************************"));
+
+      //対象の画像をNanonetsに送信して認識させる
+      xhr.send(data);
+
+
+    </script>
+  </body>
+</html>
