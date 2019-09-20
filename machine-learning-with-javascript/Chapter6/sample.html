@@ -27,7 +27,7 @@
           const lists = JSON.parse(this.response);
 
           //取得できたキーワードを1つずつコンソールログに出力する
-          lists.keywords.forEach((data) => console.log(data.keyword));
+          lists.keywords.forEach(data => console.log(data.keyword));
         }
       }
       xhr.send();
