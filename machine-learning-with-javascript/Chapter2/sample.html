@@ -1,0 +1,57 @@
+<!DOCTYPE html>
+<html lang="ja">
+  <head>
+    <meta charset="utf-8" />
+    <title>Clarifai基本サンプル</title>
+  </head>
+  <body>
+    
+    
+    <!-- 機械学習に使う画像 -->
+    <img id="image" src="/image/cat.jpg" />
+        
+      
+  <script src="https://sdk.clarifai.com/js/clarifai-latest.js"></script>
+  <script>
+    
+    //ご自身のAPIキーを設定してください
+    const app = new Clarifai.App({apiKey: '4316************'});
+    const img = document.getElementById('image');
+    
+    //画像の幅を600pxに固定
+    img.style.width = '600px';
+    
+    
+    //GENERALモデルの利用
+    app.models.predict('aaa03c23b3724a16a56b629203edc62c', img.src)
+    .then(
+      response => {
+        console.log(response);
+        const lists = response.outputs[0].data.concepts;
+
+        // キーワードだけを抽出してコンソールログへ出力
+        lists.forEach( data => console.log(data.name) );
+      },
+      error => console.log(error)
+    );
+    
+    
+    
+    /*
+    //キーワードリストを日本語に変換する場合
+    app.models.predict({id:'aaa03c23b3724a16a56b629203edc62c',language:'ja'}, img.src)
+    .then(
+      response => {
+        const lists = response.outputs[0].data.concepts;
+
+        //キーワードだけを抽出してコンソールログへ出力
+        lists.forEach( data => console.log(data.name) );
+      },
+      error => console.log(error)
+    );
+    */
+    
+    
+  </script>
+  </body>
+</html>
