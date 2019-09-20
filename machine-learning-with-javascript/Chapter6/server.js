@@ -77,3 +77,30 @@ function getJSON(token, imgurl) {
     })
   })
 }
+
+
+
+
+/*
+//その他、3種類のEverypixel API
+const qualityUGC = 'https://api.everypixel.com/v1/quality_ugc';
+const qualityURL = 'https://api.everypixel.com/v1/quality';
+const faceURL = 'https://api.everypixel.com/v1/faces';
+
+//サンプル例
+function getJSON(token, imgurl) {
+  const options = {
+    url: faceURL,
+    method: 'GET',
+    qs: {url: imgurl},
+    headers: {'Authorization': 'Bearer ' + token}
+  }
+  
+  //結果を取得してからPromiseで返す
+  return new Promise((resolve, reject) => {
+    request(options, function(error, response, body) {
+      resolve(body);
+    })
+  })
+}
+*/
