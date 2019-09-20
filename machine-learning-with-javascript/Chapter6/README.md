@@ -6,11 +6,13 @@
 ![](https://github.com/webhacck/techbooks/blob/master/machine-learning-with-javascript/Chapter6/image/1.jpg)
 
 <br>
+
 画像がアップロードされると、画面にサムネイルが表示されるのでクリックします。
 ![](https://github.com/webhacck/techbooks/blob/master/machine-learning-with-javascript/Chapter6/image/2.jpg)
 
 
 <br>
+
 画像の詳細画面に表示されているURLが画像のパスになります。
 ![](https://github.com/webhacck/techbooks/blob/master/machine-learning-with-javascript/Chapter6/image/3.jpg)
 
