@@ -8,3 +8,5 @@
 - Chapter5 画像品質と人物の年齢を判定
 - Chapter6 JavaScriptとNode.jsの連携
 - Chapter7 付録
+
+※Chapter2の本書でご紹介している画面レイアウトがリニューアルにより変化しております。詳細は[該当の章](https://github.com/webhacck/techbooks/tree/master/machine-learning-with-javascript/Chapter2)で解説しておりますのでご確認をよろしくお願い致します。
